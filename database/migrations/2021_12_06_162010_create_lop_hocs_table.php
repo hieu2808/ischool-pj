@@ -17,7 +17,7 @@ class CreateLopHocsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('mon_hoc_id')->unsigned();
             $table->bigInteger('chuong_trinh_hoc_id')->unsigned();
-            $table->string('ten_lop_hoc', 50)->nullable();
+            $table->string('ten_lop_hoc', 250)->nullable();
             $table->integer('so_luong_sv')->nullable();
             $table->integer('so_tin_chi')->nullable();  
             $table->dateTime('ngay_bat_dau');
