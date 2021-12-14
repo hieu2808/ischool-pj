@@ -11,8 +11,11 @@ use App\Models\Lop;
 use App\Models\LopHoc;
 use App\Models\MonHoc;
 use App\Models\Nganh;
+use App\Models\PhanLopGiaoVien;
 use App\Models\SinhVien;
+use App\Models\SVDangKyLopHoc;
 use App\User;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,6 +52,7 @@ class GenData extends Command
      */
     public function handle()
     {
+/**/
         $this->genHocKy();
         $this->genKhoaHoc();
         $this->genLop();
@@ -61,6 +65,10 @@ class GenData extends Command
 
         $this->genSinhVien();
         $this->genGiaoVien();
+
+        $this->genSinhVienDangKy();
+
+        $this->genGiaoVienPhanLop();
     }
 
     private $hockyData  = [
@@ -301,7 +309,7 @@ class GenData extends Command
         }
 
         for ($i = 1000; $i < 2000; $i++){
-            $chuong_trinh_hoc_id = 1;
+            $chuong_trinh_hoc_id = 2;
             $monhoc_id = rand(1, 63);
             
             $lophoc = new LopHoc();
@@ -318,7 +326,7 @@ class GenData extends Command
 
 
         for ($i = 2000; $i < 3000; $i++){
-            $chuong_trinh_hoc_id = 1;
+            $chuong_trinh_hoc_id = 3;
             $monhoc_id = rand(1, 63);
             
             $lophoc = new LopHoc();
@@ -334,7 +342,7 @@ class GenData extends Command
         }
 
         for ($i = 3000; $i < 4000; $i++){
-            $chuong_trinh_hoc_id = 1;
+            $chuong_trinh_hoc_id = 4;
             $monhoc_id = rand(1, 63);
             
             $lophoc = new LopHoc();
@@ -350,7 +358,6 @@ class GenData extends Command
         }
     }
     
-
     public function getHo() {
         $file_n = Storage::disk('local')->path("seed_data\people.csv");
         echo $file_n;
@@ -404,7 +411,6 @@ class GenData extends Command
         }
     }
 
-
     public function genGiaoVien() {
         $ho = $this->getHo();
         $ten = $this->getTen();
@@ -429,4 +435,94 @@ class GenData extends Command
             $gv->user()->save($user);
         }
     }
+
+    public function genSinhVienDangKy() {
+        // Mỗi kỳ học 
+        for($i = 1; $i <= 4; $i++){
+            $chuong_trinh_hoc_id = $i;
+            $so_mon_hoc_lua_chon_1_ky_hoc = rand(3,7);
+            $monhoc_list = $this->getMonHocData();
+
+            $sv_id = SinhVien::pluck("id");
+
+            // Mỗi sinh viên lựa chọn 1 danh sách môn học để đăng ký học 
+            foreach($sv_id as $k => $id){
+                $temp_monhoc = $monhoc_list;                
+                $monhoc = array_shift($temp_monhoc);
+                try{
+                    // Chọn môn học 
+                    for($j = 1; $j <= $so_mon_hoc_lua_chon_1_ky_hoc; $j++){                                        
+                        $sv_dk = new SVDangKyLopHoc();
+                        
+                        $lophoc = LopHoc::where([
+                            //["mon_hoc_id", $monhoc["id"]+1],
+                            ["mon_hoc_id", $monhoc["id"]],
+                            ["chuong_trinh_hoc_id", $chuong_trinh_hoc_id],
+                        ])->pluck("id");
+                        if (count($lophoc) == 0 ){
+                            continue;
+                        }
+
+                        $sv_dk->sinh_vien_id = $id;
+                        $sv_dk->lop_hoc_id = $lophoc[$j];
+                        $sv_dk->ngay_dang_ky = "2020-01-02";
+                        
+                        $sv_dk->save();
+                        
+                    }
+                }catch (Exception $e){
+                        echo $e->message;
+                    }
+            }
+        }
+    }
+
+    public function genGiaoVienPhanLop(){
+        $monhoc_list = $this->getMonHocData();
+        $ds_giaovien = GiaoVien::pluck("id")->toArray();
+        // Mooix mon hoc
+        foreach ($monhoc_list as $key => $monhoc){
+            //var_dump($monhoc);
+            //echo "monhoc:".$monhoc["id"]."\n";
+            if (count($ds_giaovien) == 0) {
+                //echo "Hey";
+                return;
+            }
+            $gv1 = array_shift($ds_giaovien);
+            if (count($ds_giaovien) == 0) {
+                //echo "Hej";
+                return;
+            }
+            $gv2 = array_shift($ds_giaovien);
+               
+            for ($i = 1; $i <= 4; $i++){
+                $chuong_trinh_hoc_id = $i;
+                $ds_lop_cua_monhoc = LopHoc::where([
+                    ["mon_hoc_id", $monhoc["id"]],
+                    ["chuong_trinh_hoc_id", $chuong_trinh_hoc_id],
+                ])->pluck("id");
+                
+                //var_dump("danh sach lop hoc cua mon hoc ".count($ds_lop_cua_monhoc));
+                $index = 0;
+                try{ 
+                foreach($ds_lop_cua_monhoc as $lophoc){
+                   //echo "hei".$lophoc."\n";
+                    $phanlop = new PhanLopGiaoVien();
+                    if ($index < 7){
+                        $phanlop->giao_vien_id = $gv1;
+                    }else{
+                        $phanlop->giao_vien_id = $gv2;
+                    }
+                    $phanlop->lop_hoc_id = $lophoc;
+                    $phanlop->ngay_phan_lop = "2020-01-09";
+                    $phanlop->save();
+                    $index++;
+                }
+                }catch (Exception $e) {
+                            echo $e;
+                        }
+            }
+        }
+    }
+
 }

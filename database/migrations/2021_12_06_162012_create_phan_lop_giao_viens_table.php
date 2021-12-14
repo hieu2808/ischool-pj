@@ -14,6 +14,7 @@ class CreatePhanLopGiaoViensTable extends Migration
     public function up()
     {
         Schema::create('phan_lop_giao_viens', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->bigInteger('giao_vien_id')->unsigned();
             $table->bigInteger('lop_hoc_id')->unsigned();
             $table->dateTime('ngay_phan_lop');
