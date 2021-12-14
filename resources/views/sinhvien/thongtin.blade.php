@@ -9,15 +9,11 @@
 <!--Thêm section layout content-->
 @section('content')
 <h1 style="text-align: center;">Thông tin sinh viên</h1>
-@foreach($ttsv as $tt)
-ID: {{  $tt->id  }} <br>
-Họ và tên: {{ $tt->ten_ho." ".$tt->ten_dem." ".$tt->ten  }} <br>
-Năm Sinh: {{  $tt->nam_sinh  }} <br>
-Địa chỉ: {{  $tt->dia_chi  }} <br>
-Số điện thoại: {{  $tt->tel  }} <br>
-@foreach($lop as $l)
-Tên lớp: {{  $l->ten_lop   }}
-@endforeach
-@endforeach
+ID: {{  $thong_tin_svs->id  }} <br>
+Họ và tên: {{ $thong_tin_svs->ten_ho." ".$thong_tin_svs->ten_dem." ".$thong_tin_svs->ten  }} <br>
+Năm Sinh: {{  $thong_tin_svs->nam_sinh  }} <br>
+Địa chỉ: {{  $thong_tin_svs->dia_chi  }} <br>
+Số điện thoại: {{  $thong_tin_svs->tel  }} <br>
+Tên lớp: {{  $thong_tin_svs->lop->ten_lop   }}
 
 @endsection

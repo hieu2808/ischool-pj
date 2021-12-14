@@ -272,11 +272,11 @@ class GenData extends Command
         return $all_data;
     }
     public function genMonHoc(){
-        foreach ($this->getMonHocData() as $monhoc){           
+        foreach ($this->getMonHocData() as $mh){           
             $monhoc = new MonHoc();
-            $monhoc->id = $monhoc["id"];
+            $monhoc->id = $mh["id"];
             $monhoc->nganh_id = 1;
-            $monhoc->ten_mon_hoc = $monhoc["ten"];
+            $monhoc->ten_mon_hoc = $mh["ten"];
             $monhoc->save();
         }
     }
@@ -440,19 +440,20 @@ class GenData extends Command
         // Mỗi kỳ học 
         for($i = 1; $i <= 4; $i++){
             $chuong_trinh_hoc_id = $i;
-            $so_mon_hoc_lua_chon_1_ky_hoc = rand(3,7);
+            $so_mon_hoc_lua_chon_1_ky_hoc = rand(4,9);
             $monhoc_list = $this->getMonHocData();
 
             $sv_id = SinhVien::pluck("id");
 
             // Mỗi sinh viên lựa chọn 1 danh sách môn học để đăng ký học 
             foreach($sv_id as $k => $id){
-                $temp_monhoc = $monhoc_list;                
-                $monhoc = array_shift($temp_monhoc);
+                $temp_monhoc = $monhoc_list;
+                shuffle($temp_monhoc);
                 try{
                     // Chọn môn học 
-                    for($j = 1; $j <= $so_mon_hoc_lua_chon_1_ky_hoc; $j++){                                        
+                    for($j = 0; $j <= $so_mon_hoc_lua_chon_1_ky_hoc; $j++){                                        
                         $sv_dk = new SVDangKyLopHoc();
+                        $monhoc = array_shift($temp_monhoc);
                         
                         $lophoc = LopHoc::where([
                             //["mon_hoc_id", $monhoc["id"]+1],

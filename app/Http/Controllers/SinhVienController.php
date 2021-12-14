@@ -14,12 +14,10 @@ class SinhVienController extends Controller
      */
     public function index($id)
     {
-        $thong_tin_svs = SinhVien::where('id', $id)->get();
-        foreach($thong_tin_svs as $ttsvs) {
-            $ttsv = $ttsvs->where('id', $id)->get();
-            $lop = $ttsvs->lop->where('id', $ttsvs->lop_id)->get();
-        }
-        return view('sinhvien.thongtin', compact('ttsv', 'lop'));
+        //Lấy thông tin sinh viên, tên lớp theo sinh viên
+        $thong_tin_svs = SinhVien::with('lop')->findOrFail($id);
+        
+        return view('sinhvien.thongtin', compact('thong_tin_svs'));
     }    
 
     /**

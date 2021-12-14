@@ -1,4 +1,4 @@
-*
+!seed_data/
 !public/
-!seed_data/**
 !.gitignore
+
