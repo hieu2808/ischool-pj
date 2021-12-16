@@ -20,8 +20,8 @@ class CreateLopHocsTable extends Migration
             $table->string('ten_lop_hoc', 250)->nullable();
             $table->integer('so_luong_sv')->nullable();
             $table->integer('so_tin_chi')->nullable();  
-            $table->dateTime('ngay_bat_dau');
-            $table->dateTime('ngay_ket_thuc');
+            $table->dateTime('ngay_bat_dau')->nullable();
+            $table->dateTime('ngay_ket_thuc')->nullable();
             $table->timestamps();
 
             $table->foreign('mon_hoc_id')->references('id')->on('mon_hocs');

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminProfile;
+use App\Models\ChuongTrinhHoc;
+use App\Models\LopHoc;
+use App\Models\MonHoc;
 use Illuminate\Http\Request;
 
 class AdminProfileController extends Controller
@@ -11,9 +15,32 @@ class AdminProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $admin = AdminProfile::find($id);
+
+        return view('admin.index', compact('admin'));
+    }
+
+    public function getMonHoc()
+    {
+        $monhoc = MonHoc::paginate(10);
+
+        return view('admin.quanlylh', compact('monhoc'));
+    }
+
+    public function getClassBySubject($id)
+    {
+        $classes = LopHoc::with('monHoc', 'chuongTrinhHoc')->get();
+
+        return view('admin.classbysubject', compact('classes'));
+    }
+
+    public function addClassForm()
+    {
+        $chuongTrinhHocs = ChuongTrinhHoc::all();
+
+        return view('admin.addclassform', compact('chuongTrinhHocs'));
     }
 
     /**
@@ -21,9 +48,13 @@ class AdminProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($mon_hoc_id)
     {
-        //
+        $data = array_merge(['mon_hoc_id' => $mon_hoc_id], request()->all());
+
+        $classes = LopHoc::create($data);
+
+        return redirect()->route('class_list', ['id' => $mon_hoc_id]);
     }
 
     /**

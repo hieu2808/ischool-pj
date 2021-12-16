@@ -1,16 +1,12 @@
 <!--Danh sách menu-->
-<a href="#" class="list-group-item list-group-item-action">
-    Thông tin sinh viên
+<a href="{{ url('/admin/index/{id}') }}" class="list-group-item list-group-item-action">
+    Thông tin admin
 </a>
 
-<a href="#" class="list-group-item list-group-item-action">
-    Đăng ký môn học
+<a href="{{ url('/admin/quanlylh/') }}" class="list-group-item list-group-item-action">
+    Quản lý lớp học
 </a>
 
-<a href="{{ url('/sinhvien/index/{id}') }}" class="list-group-item list-group-item-action">
-    Xem kết quả học tập
-</a>
-
-<a href="{{ url('/test') }}" class="list-group-item list-group-item-action">
-    Test Route
+<a href="{{ url('/admin/quanlylh/') }}" class="list-group-item list-group-item-action">
+    Phân lớp giáo viên
 </a>

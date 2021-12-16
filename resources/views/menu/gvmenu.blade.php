@@ -10,7 +10,3 @@
 <a href="#" class="list-group-item list-group-item-action">
     Giáo Viên
 </a>
-
-<a href="{{ url('/test') }}" class="list-group-item list-group-item-action">
-    Test Route
-</a>
