@@ -12,6 +12,7 @@ use App\Models\LopHoc;
 use App\Models\MonHoc;
 use App\Models\Nganh;
 use App\Models\PhanLopGiaoVien;
+use App\Models\PhuongThucDanhGia;
 use App\Models\SinhVien;
 use App\Models\SVDangKyLopHoc;
 use App\User;
@@ -52,7 +53,7 @@ class GenData extends Command
      */
     public function handle()
     {
-/**/
+ 
         $this->genHocKy();
         $this->genKhoaHoc();
         $this->genLop();
@@ -69,6 +70,8 @@ class GenData extends Command
         $this->genSinhVienDangKy();
 
         $this->genGiaoVienPhanLop();
+        $this->genPhuongThucDanhGiaChoTungLopHoc();
+      /* $this->genDiemMonHoc();*/
     }
 
     private $hockyData  = [
@@ -359,7 +362,7 @@ class GenData extends Command
     }
     
     public function getHo() {
-        $file_n = Storage::disk('local')->path("seed_data\people.csv");
+        $file_n = Storage::disk('local')->path("seed_data/people.csv");
         echo $file_n;
 
         $file = fopen($file_n, "r");
@@ -472,7 +475,7 @@ class GenData extends Command
                         
                     }
                 }catch (Exception $e){
-                        echo $e->message;
+                        echo $e->getMessage();
                     }
             }
         }
@@ -520,10 +523,65 @@ class GenData extends Command
                     $index++;
                 }
                 }catch (Exception $e) {
-                            echo $e;
+                            echo $e->getMessage();
                         }
             }
         }
     }
+    public function genPhuongThucDanhGiaChoTungLopHoc() {
+        $lop_hoc = LopHoc::all();
+        $mon_hoc = $this->getMonHocData();
 
+        foreach($lop_hoc as $lophoc){
+            $test_mh_id = $lophoc->mon_hoc_id;
+            $mon = $mon_hoc[$test_mh_id];
+            if (is_array($mon)){
+                $phuong_thuc = $this->getPhuongThucDanhGia($mon["so_tin_chi"]);
+                //var_dump($phuong_thuc);
+                if (is_array($phuong_thuc) && count($phuong_thuc) > 0){
+                    $lophoc->phuongThucDG()->saveMany($phuong_thuc);
+                }
+            }
+        }        
+    }
+
+    public function getPhuongThucDanhGia($so_trinh) {
+        $trinh = round($so_trinh);
+        $phuong_thuc_danh_gia = [];
+        $i = 0;
+        for($i; $i <= $trinh ; $i++){
+            $p = new PhuongThucDanhGia();
+            $p->ten_diem = "Kiểm tra số  ".($i+1);
+            $p->trong_so = (10)/100;
+            $phuong_thuc_danh_gia[] = $p;
+        }
+        $p = new PhuongThucDanhGia();
+        $p->ten_diem = "Điểm Thi";
+        $p->trong_so = (10 - $i)*10/100;
+        $phuong_thuc_danh_gia[] = $p;
+        return $phuong_thuc_danh_gia;
+    }
+
+    // public function genDiemMonHoc(){    
+    //     $mon_hoc = $this->getMonHocData();
+
+    //     for($chuong_trinh_hoc_id = 1; $chuong_trinh_hoc_id < 5; $chuong_trinh_hoc_id++){
+    //         $lop_hoc = LopHoc::where('chuong_trinh_hoc_id', $chuong_trinh_hoc_id)->get();
+
+    //         foreach($lop_hoc as $lophoc){
+    //             echo $lophoc->ten_lop_hoc;
+    //             $phan_lop = $lophoc->phanLopGV;
+                
+    //             $gv_id = $phan_lop[0]->giao_vien_id;
+    //             $svs = $lophoc->sinhVienDK;
+    //             foreach($svs as $sv){
+    //                 $sv_id = $sv->id;
+    //                 var_dump($sv_id);
+    //             }
+    //             if (count($svs) > 0) {
+    //                 return;
+    //             }
+    //         }
+    //     }
+    // }
 }

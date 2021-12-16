@@ -6,6 +6,7 @@
 @include('menu.svmenu')
 @endsection
 
+@section('title', 'Bảng điểm sinh viên')
 <!--Thêm section layout content-->
 @section('content')
 <h1 style="text-align: center;">Bảng điểm sinh viên</h1>

@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Khoa extends Model
 {
     protected $table = "khoas";
+
+    protected $fillable = [
+        'ten_khoa'
+    ];
+     
+    protected $guarded = [];
     
     public function nganh()
     {

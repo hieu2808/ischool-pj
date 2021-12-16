@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class LopHoc extends Model
 {
     protected $table = "lop_hocs";
+
+    protected $fillable = [
+        'mon_hoc_id',
+        'chuong_trinh_hoc_id',
+        'ten_lop_hoc',
+        'so_luong_sv',
+        'so_tin_chi',
+        'ngay_bat_dau',
+        'ngay_ket_thuc'
+    ];  
+        
+    protected $guarded = [];
     
     public function phuongThucDG()
     {

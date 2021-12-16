@@ -8,6 +8,17 @@ class DiemMonHoc extends Model
 {
     protected $table = 'diem_mon_hocs';
 
+    protected $fillable = [
+        'lop_hoc_id',
+        'sinh_vien_id',
+        'phuong_thuc_danh_gia_id',
+        'giao_vien_id',
+        'diem',
+        'ngay_cho_diem'
+    ];
+     
+    protected $guarded = [];
+
     public function lopHoc()
     {
         return $this->belongsTo('App\Models\LopHoc', 'lop_hoc_id');

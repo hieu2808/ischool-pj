@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiemMonHoc;
 use App\Models\GiaoVien;
+use App\Models\Lop;
 use App\Models\LopHoc;
 use App\Models\PhanLopGiaoVien;
 use Illuminate\Http\Request;
@@ -55,6 +57,16 @@ class GiaoVienController extends Controller
             $diemsos = $items->diemMH;
         }
         return view('giaovien.diemtheolop', compact('lhlists', 'svs', 'ten_diems', 'diemsos'));
+    }
+
+    //Nhập điểm môn học
+    public function insertScores($id)
+    {
+        $lists = LopHoc::with('sinhVienDK', 'diemMH', 'phuongThucDG')->findOrFail($id);
+
+        dd($lists);
+ 
+        return view('giaovien.themdiemform', compact('lists'));
     }
     /**
      * Show the form for creating a new resource.

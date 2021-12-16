@@ -8,6 +8,16 @@ class SinhVien extends Model
 {
     protected $table = 'sinh_viens';
 
+    protected $fillable = [
+        'lop_id',
+        'ten_ho',
+        'ten_dem',
+        'ten',
+        'nam_sinh',
+        'dia_chi',
+        'tel'
+    ];  
+
     protected $guarded = [];
   
     public function user() 

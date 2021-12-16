@@ -16,7 +16,7 @@ class SinhVienController extends Controller
     {
         //Lấy thông tin sinh viên, tên lớp theo sinh viên
         $thong_tin_svs = SinhVien::with('lop')->findOrFail($id);
-        
+
         return view('sinhvien.thongtin', compact('thong_tin_svs'));
     }    
 

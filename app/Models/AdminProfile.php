@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AdminProfile extends Model
 {
+    protected $fillable = [
+       'name' 
+    ];
+    
     protected $guarded = [];
   
     public function user() 

@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class MonHoc extends Model
 {
     protected $table = "mon_hocs";
+
+    protected $fillable = [
+        'nganh_id',
+        'ten_mon_hoc'
+    ];  
+        
+    protected $guarded = [];
     
     public function nganh()
     {

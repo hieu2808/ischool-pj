@@ -8,6 +8,16 @@ class GiaoVien extends Model
 {
     protected $table = 'giao_viens';
 
+    protected $fillable = [
+        'khoa_id',
+        'ten_ho',
+        'ten_dem',
+        'ten',
+        'nam_sinh',
+        'dia_chi',
+        'tel'
+    ];
+     
     protected $guarded = [];
   
     public function user() 

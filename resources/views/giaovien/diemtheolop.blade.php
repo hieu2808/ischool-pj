@@ -6,6 +6,7 @@
 @include('menu.gvmenu')
 @endsection
 
+@section('title', 'Danh sách điểm sinh viên theo lớp học')
 <!--Thêm section layout content-->
 @section('content')
 <h1 style="text-align: center;">Danh sách điểm sinh viên theo lớp học</h1>
