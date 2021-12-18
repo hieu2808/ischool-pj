@@ -37,7 +37,7 @@ class LopHoc extends Model
 
     public function phanLopGV()
     {
-        return $this->hasMany('App\Models\PhanLopGV');
+        return $this->hasMany('App\Models\PhanLopGiaoVien');
     }
 
     public function monHoc()

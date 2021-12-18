@@ -44,7 +44,7 @@
         <input type="date" name='ngay_ket_thuc' class="form-control" id="ngayKetThuc">
     </div>
 
-    <button type="submit" >Thêm mới</button>
+    <button type="submit" class="btn btn-success" >Thêm mới</button>
 
 </form>
 

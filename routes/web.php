@@ -39,7 +39,12 @@ Route::get('/giaovien/themdiemform/{id}', 'GiaoVienController@insertScores');
 
 
 Route::get('/admin/index/{id}', 'AdminProfileController@index');
-Route::get('/admin/quanlylh/', 'AdminProfileController@getMonHoc');
+Route::get('/admin/quanlylh/', 'AdminProfileController@getMonHoc')->name('class_management');
 Route::get('/admin/classbysubject/{id}', 'AdminProfileController@getClassBySubject')->name('class_list');
 Route::get('/admin/addclassform/{mon_hoc_id}', 'AdminProfileController@addClassForm')->name('create_class');
 Route::post('/admin/addclassform/{mon_hoc_id}', 'AdminProfileController@create')->name('create_class');
+
+Route::get('/admin/assigntask/{lop_hoc_id}', 'PhanLopGiaoVienController@assignTask')->name('assign_task');
+Route::post('/admin/assigntask/{lop_hoc_id}', 'PhanLopGiaoVienController@create')->name('assign_task');
+Route::get('/admin/changetask/{phan_lop_id}', 'PhanLopGiaoVienController@changeTask')->name('change_task');
+Route::post('/admin/changetask/{phan_lop_id}', 'PhanLopGiaoVienController@update')->name('change_task');

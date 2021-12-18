@@ -11,7 +11,7 @@
 @section('content')
 <h1 style="text-align: center; margin-bottom: 20px">Danh sách lớp học</h1>
 
-<h4>Tên môn học: @foreach ($classes as $class) {{$class->monHoc->ten_mon_hoc}}@endforeach</h4>
+<h4>Tên môn học: {{ $classes->first()->monHoc->ten_mon_hoc }}</h4>
 
 <div class="d-flex justify-content-end" style="margin-bottom: 20px">
     <a href="{{ route('create_class', ['mon_hoc_id' => request()->id]) }}" class="btn btn-primary">Thêm lớp học</a>
@@ -27,6 +27,7 @@
             <td>Số tín chỉ</td>
             <td>Ngày bắt đầu</td>
             <td>Ngày kết thúc</td>
+            <td>Giáo viên giảng dạy</td>
         </tr>
     </thead>
 
@@ -40,6 +41,14 @@
                 <td>{{   $class->so_tin_chi   }}</td>
                 <td>{{   $class->ngay_bat_dau   }}</td>
                 <td>{{   $class->ngay_ket_thuc   }}</td>
+                    {{-- Kiểm tra xem lớp học giáo viên giảng dạy ko? --}}
+                    @if ($class->phanlopGV->first() != "")
+                        <td>{{ $class->phanlopGV->first()->giaoVien->ten_ho . " " . $class->phanlopGV->first()->giaoVien->ten_dem . " " . $class->phanlopGV->first()->giaoVien->ten }}</td>
+                        <td><a href="{{ url('/admin/changetask/' . $class->id) }}" class="btn btn-primary">Thay đổi</a></td>
+                    @else
+                        <td> {{ "Chưa có giáo viên dạy" }}</td>
+                        <td><a href="{{ url('/admin/assigntask/' . $class->id) }}" class="btn btn-primary">Giao nhiệm vụ</a></td>
+                    @endif
             </tr>
         @endforeach
     </tbody>
