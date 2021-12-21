@@ -62,15 +62,15 @@ class GenData extends Command
         $this->genNganhHoc(); 
         $this->genChuongTrinhHoc();
         $this->genMonHoc();
-        // $this->genLopHoc();
+        $this->genLopHoc();
 
-        // $this->genSinhVien();
-        // $this->genGiaoVien();
+        $this->genSinhVien();
+        $this->genGiaoVien();
 
-        // $this->genSinhVienDangKy();
+        $this->genSinhVienDangKy();
 
-        // $this->genGiaoVienPhanLop();
-        // $this->genPhuongThucDanhGiaChoTungLopHoc();
+        $this->genGiaoVienPhanLop();
+        $this->genPhuongThucDanhGiaChoTungLopHoc();
       /* $this->genDiemMonHoc();*/
     }
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LopHoc;
+use App\Models\SVDangKyLopHoc;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SVDangKyLopHocController extends Controller
@@ -11,9 +14,17 @@ class SVDangKyLopHocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        // Lấy thời gian hiện tại, vùng VN
+        $currenttime = Carbon::now('Asia/Ho_Chi_Minh');
+
+        // Lấy ds lớp học, ddkien time ngày bắt đầu lớn hơn time hiện tại
+        $classes = LopHoc::with('monHoc')->where('ngay_bat_dau', '>', $currenttime)->get();
+
+        $course_registration = SVDangKyLopHoc::where('sinh_vien_id', $id)->get();
+
+        return view('sinhvien.courseregistration', compact('classes', 'currenttime', 'course_registration'));
     }
 
     /**
@@ -21,9 +32,15 @@ class SVDangKyLopHocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id, Request $request)
     {
-        //
+        $registration_time = Carbon::now('Asia/Ho_Chi_Minh');
+
+        $data = array_merge(['sinh_vien_id' => $id], ['ngay_dang_ky' => $registration_time], $request->all());
+        dd($data);
+
+        return redirect()->route('course_registration', ['id' => $id]);
+
     }
 
     /**

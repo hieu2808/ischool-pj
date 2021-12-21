@@ -6,7 +6,9 @@ use App\Models\AdminProfile;
 use App\Models\ChuongTrinhHoc;
 use App\Models\LopHoc;
 use App\Models\MonHoc;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminProfileController extends Controller
 {
@@ -15,8 +17,10 @@ class AdminProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
+        $id = Auth::user()->profile_id;
+
         $admin = AdminProfile::find($id);
 
         return view('admin.index', compact('admin'));

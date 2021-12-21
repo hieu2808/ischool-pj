@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -20,6 +21,20 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+
+    protected function authenticated(Request $request, $user)
+    {
+        // if ( $user->isAdmin() ) {// do your magic here
+        //     return redirect()->route('dashboard');
+        // }
+
+        if( $user->profile_type == 'App\Models\SinhVien') {
+            return redirect()->route('profile_sv');
+        } else if($user->profile_type == 'App\Models\GiaoVien') {
+            return redirect()->route('profile_gv');
+        }
+        return redirect()->route('profile_ad');
+    }
 
     /**
      * Where to redirect users after login.

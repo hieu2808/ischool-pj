@@ -13,38 +13,41 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
+// Sinh viên
+Route::group(['prefix' => '/sinhvien', 'middleware' => 'auth'], function() {
+    Route::get('/index', 'LopHocController@XemDiem')->name('xemdiem_sv');
+    Route::get('/thongtin', 'SinhVienController@index')->name('profile_sv');
+    Route::get('/{id}/courseregistration/', 'SVDangKyLopHocController@index')->name('course_registration');
+    Route::post('/{id}/courseregistration/', 'SVDangKyLopHocController@create')->name('course_registration.create');    
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Giáo viên
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::group(['prefix' => '/giaovien', 'middleware' => 'auth'], function() {
+    Route::get('/index', 'GiaoVienController@index')->name('profile_gv');
+    Route::get('/themdiemmh', 'GiaoVienController@getSubjectByTeacher')->name('getSubject');
+    Route::get('/loptheomon/{id}', 'GiaoVienController@getClassListBySubject');
+    Route::get('/diemtheolop/{id}', 'GiaoVienController@getScoreListByClass');
+    Route::get('/themdiemform/{id}', 'GiaoVienController@insertScores');
 });
-Route::get('/test', function () {
-    return view('test');
+
+// Admin
+Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'check.admin']], function() {
+    Route::get('/index', 'AdminProfileController@index')->name('profile_ad');
+    Route::get('/quanlylh', 'AdminProfileController@getMonHoc')->name('class_management');
+    Route::get('/classbysubject/{id}', 'AdminProfileController@getClassBySubject')->name('class_list');
+    Route::get('/addclassform/{mon_hoc_id}', 'AdminProfileController@addClassForm')->name('create_class');
+    Route::post('/addclassform/{mon_hoc_id}', 'AdminProfileController@create')->name('create_class');
+
+    Route::get('/assigntask/{lop_hoc_id}', 'PhanLopGiaoVienController@assignTask')->name('assign_task');
+    Route::post('/assigntask/{lop_hoc_id}', 'PhanLopGiaoVienController@create')->name('assign_task');
+    Route::get('/changetask/{phan_lop_id}', 'PhanLopGiaoVienController@changeTask')->name('change_task');
+    Route::post('/changetask/{phan_lop_id}', 'PhanLopGiaoVienController@update')->name('change_task');
 });
-
-Route::get('/sinhvien/index/{id}', 'LopHocController@XemDiem');
-Route::get('/sinhvien/thongtin/{id}', 'SinhVienController@index');
-
-Route::get('/giaovien/index/{id}', 'GiaoVienController@index');
-Route::get('/giaovien/themdiemmh/{id}', 'GiaoVienController@getSubjectByTeacher');
-Route::get('/giaovien/loptheomon/{id}', 'GiaoVienController@getClassListBySubject');
-Route::get('/giaovien/diemtheolop/{id}', 'GiaoVienController@getScoreListByClass');
-Route::get('/giaovien/themdiemform/{id}', 'GiaoVienController@insertScores');
-
-
-Route::get('/admin/index/{id}', 'AdminProfileController@index');
-Route::get('/admin/quanlylh/', 'AdminProfileController@getMonHoc')->name('class_management');
-Route::get('/admin/classbysubject/{id}', 'AdminProfileController@getClassBySubject')->name('class_list');
-Route::get('/admin/addclassform/{mon_hoc_id}', 'AdminProfileController@addClassForm')->name('create_class');
-Route::post('/admin/addclassform/{mon_hoc_id}', 'AdminProfileController@create')->name('create_class');
-
-Route::get('/admin/assigntask/{lop_hoc_id}', 'PhanLopGiaoVienController@assignTask')->name('assign_task');
-Route::post('/admin/assigntask/{lop_hoc_id}', 'PhanLopGiaoVienController@create')->name('assign_task');
-Route::get('/admin/changetask/{phan_lop_id}', 'PhanLopGiaoVienController@changeTask')->name('change_task');
-Route::post('/admin/changetask/{phan_lop_id}', 'PhanLopGiaoVienController@update')->name('change_task');

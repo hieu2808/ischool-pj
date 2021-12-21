@@ -8,6 +8,7 @@ use App\Models\Lop;
 use App\Models\LopHoc;
 use App\Models\PhanLopGiaoVien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GiaoVienController extends Controller
 {
@@ -16,8 +17,10 @@ class GiaoVienController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
+        $id = Auth::user()->profile_id;
+
         $teachers = GiaoVien::where('id', $id)->get();
         foreach($teachers as $teacher) {
             // Lấy thông tin giáo viên(Collection)
@@ -29,8 +32,10 @@ class GiaoVienController extends Controller
     }
 
     //Lấy danh sách môn học theo giáo viên
-    public function getSubjectByTeacher($id)
+    public function getSubjectByTeacher()
     {
+        $id = Auth::user()->profile_id;
+
         $teachers = PhanLopGiaoVien::where('giao_vien_id', $id)->get();
         foreach($teachers as $teacher) {
             $lop_hoc = $teacher->lopHoc;

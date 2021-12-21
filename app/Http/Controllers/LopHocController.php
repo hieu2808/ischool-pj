@@ -8,6 +8,9 @@ use App\Models\PhuongThucDanhGia;
 use App\Models\SinhVien;
 use Illuminate\Http\Request;
 use App\Models\SVDangKyLopHoc;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 class LopHocController extends Controller
 {
     /**
@@ -15,8 +18,15 @@ class LopHocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function XemDiem($id)
+    public function XemDiem()
     {
+        $id = Auth::user()->profile_id;
+
+        if(!Gate::allows('duoc_xem_diem_sv')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $data = [];
         //TODO: Liệt kê bảng điểm theo môn học của sinh viên có id là sinh viên $id
         $mon_hoc_da_dang_ky = SVDangKyLopHoc::where('sinh_vien_id', $id)->get();

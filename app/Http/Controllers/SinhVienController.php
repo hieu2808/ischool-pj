@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SinhVien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SinhVienController extends Controller
 {
@@ -12,8 +13,10 @@ class SinhVienController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
+        $id = Auth::user()->profile_id;
+
         //Lấy thông tin sinh viên, tên lớp theo sinh viên
         $thong_tin_svs = SinhVien::with('lop')->findOrFail($id);
 
