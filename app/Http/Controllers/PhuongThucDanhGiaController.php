@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LopHoc;
+use App\Models\PhuongThucDanhGia;
 use Illuminate\Http\Request;
 
 class PhuongThucDanhGiaController extends Controller
@@ -11,6 +13,35 @@ class PhuongThucDanhGiaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getEvaluation($lop_hoc_id)
+    {
+        // lấy ra tên lớp học, tên môn học
+        $class = LopHoc::find($lop_hoc_id);
+
+        // Lấy ra danh sách phương thức đánh giá
+        $evaluations = PhuongThucDanhGia::where('lop_hoc_id', $lop_hoc_id)->get();
+
+        // tổng trọng số phương thức đánh giá
+        $sum = PhuongThucDanhGia::where('lop_hoc_id', $lop_hoc_id)->sum('trong_so');
+
+        return view('giaovien.phuongthucdanhgia', compact('class', 'evaluations', 'sum'));
+    }
+
+    public function postAddEvaluation(Request $request)
+    {
+        PhuongThucDanhGia::create($request->all());
+
+        return redirect()->route('getEvaluation', ['lop_hoc_id' => request()->lop_hoc_id]);
+    }
+
+    public function postDeleteEvaluation(Request $request)
+    {
+        PhuongThucDanhGia::find($request->id)->delete();
+
+        return redirect()->route('getEvaluation', ['lop_hoc_id' => request()->lop_hoc_id]);
+    }
+
     public function index()
     {
         //

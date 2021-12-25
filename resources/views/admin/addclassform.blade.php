@@ -11,7 +11,7 @@
 @section('content')
 <h1 style="text-align: center; margin-bottom: 20px">Thêm lớp học</h1>
 
-<form action="{{ route('create_class', ['mon_hoc_id' => request()->mon_hoc_id]) }}" method="post">
+<form action="{{ route('postCreateClass', ['mon_hoc_id' => request()->mon_hoc_id]) }}" method="post">
     @csrf
     
     <div class="mb-3">

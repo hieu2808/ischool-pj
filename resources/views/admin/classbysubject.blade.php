@@ -14,7 +14,7 @@
 <h4>Tên môn học: {{ $classes->first()->monHoc->ten_mon_hoc }}</h4>
 
 <div class="d-flex justify-content-end" style="margin-bottom: 20px">
-    <a href="{{ route('create_class', ['mon_hoc_id' => request()->id]) }}" class="btn btn-primary">Thêm lớp học</a>
+    <a href="{{ route('getCreateClass', ['mon_hoc_id' => request()->mon_hoc_id]) }}" class="btn btn-primary">Thêm lớp học</a>
 </div>
 
 <table class="table table-bordered">
@@ -44,10 +44,10 @@
                     {{-- Kiểm tra xem lớp học giáo viên giảng dạy ko? --}}
                     @if ($class->phanlopGV->first() != "")
                         <td>{{ $class->phanlopGV->first()->giaoVien->ten_ho . " " . $class->phanlopGV->first()->giaoVien->ten_dem . " " . $class->phanlopGV->first()->giaoVien->ten }}</td>
-                        <td><a href="{{ url('/admin/changetask/' . $class->id) }}" class="btn btn-primary">Thay đổi</a></td>
+                        <td><a href="{{ route('getChangeTask', ['lop_hoc_id' => $class->id]) }}" class="btn btn-primary">Thay đổi</a></td>
                     @else
                         <td> {{ "Chưa có giáo viên dạy" }}</td>
-                        <td><a href="{{ url('/admin/assigntask/' . $class->id) }}" class="btn btn-primary">Giao nhiệm vụ</a></td>
+                        <td><a href="{{ route('getAssignTask', ['lop_hoc_id' => $class->id]) }}" class="btn btn-primary">Giao nhiệm vụ</a></td>
                     @endif
             </tr>
         @endforeach

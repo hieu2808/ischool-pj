@@ -13,8 +13,6 @@
 
 {{ $currenttime }} <br>
 
-{{ request()->id}} <br>
-
 {{-- @dd($course_registration) --}}
 <table class="table table-bordered">
     <thead>
@@ -44,7 +42,7 @@
                 <td>{{   $cl->so_tin_chi  }} </td>
                 <td>{{   $cl->ngay_bat_dau  }} </td>
                 <td>{{   $cl->ngay_ket_thuc  }} </td>
-                <form action="{{ route('course_registration.create', ['id' => request()->id ]) }}" method="post">
+                <form action="{{ route('postCourseRegistration') }}" method="post">
                     @csrf
                     <input type="hidden" name="lop_hoc_id" value="{{ $cl->id }}">
                     <td><button class="btn btn-success">Đăng ký</button></td>

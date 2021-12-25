@@ -45,17 +45,17 @@ class GiaoVienController extends Controller
     }
 
     //Lấy danh sách lớp học theo môn học
-    public function getClassListBySubject($id)
+    public function getClassListBySubject($mon_hoc_id)
     {
-        $lists = LopHoc::where('mon_hoc_id', $id)->get();
+        $lists = LopHoc::where('mon_hoc_id', $mon_hoc_id)->get();
         return view('giaovien.loptheomon', compact('lists'));
     }
 
 
     //Lấy danh sách điểm sinh viên theo lớp học
-    public function getScoreListByClass($id)
+    public function getScoreListByClass($lop_hoc_id)
     {
-        $lhlists = LopHoc::where('id', $id)->get();
+        $lhlists = LopHoc::where('id', $lop_hoc_id)->get();
         foreach($lhlists as $items) {
             $svs = $items->sinhVienDK;
             $ten_diems = $items->phuongThucDG;

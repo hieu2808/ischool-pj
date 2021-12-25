@@ -33,9 +33,9 @@ class AdminProfileController extends Controller
         return view('admin.quanlylh', compact('monhoc'));
     }
 
-    public function getClassBySubject($id)
+    public function getClassBySubject($mon_hoc_id)
     {
-        $classes = LopHoc::with('monHoc', 'chuongTrinhHoc', 'phanLopGV')->get();
+        $classes = LopHoc::with('monHoc', 'chuongTrinhHoc', 'phanLopGV')->where('mon_hoc_id', $mon_hoc_id)->get();
 
         return view('admin.classbysubject', compact('classes'));
     }
@@ -58,7 +58,7 @@ class AdminProfileController extends Controller
         // dd($data);
         LopHoc::create($data);
 
-        return redirect()->route('class_list', ['id' => $mon_hoc_id]);
+        return redirect()->route('getClassList', ['mon_hoc_id' => $mon_hoc_id]);
     }
 
     /**

@@ -6,6 +6,8 @@ use App\Models\LopHoc;
 use App\Models\SVDangKyLopHoc;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SVDangKyLopHocController extends Controller
 {
@@ -14,8 +16,15 @@ class SVDangKyLopHocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
+        if(!Gate::allows('onlySV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
+        $id = Auth::user()->profile_id;
+
         // Lấy thời gian hiện tại, vùng VN
         $currenttime = Carbon::now('Asia/Ho_Chi_Minh');
 
@@ -32,14 +41,16 @@ class SVDangKyLopHocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id, Request $request)
+    public function create(Request $request)
     {
+        $id = Auth::user()->profile_id;
+        
         $registration_time = Carbon::now('Asia/Ho_Chi_Minh');
 
         $data = array_merge(['sinh_vien_id' => $id], ['ngay_dang_ky' => $registration_time], $request->all());
         dd($data);
 
-        return redirect()->route('course_registration', ['id' => $id]);
+        return redirect()->route('getCourseRegistration');
 
     }
 

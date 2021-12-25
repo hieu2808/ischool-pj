@@ -22,7 +22,7 @@
     <tbody>
         @foreach($mhs as $mh)
         <tr>
-        <td><a href="{{url('/giaovien/loptheomon/'.$mh->id)}}">{{   $mh->id   }}</a></td>
+        <td><a href="{{ route('getClassGV', ['mon_hoc_id' => $mh->id]) }}">{{   $mh->id   }}</a></td>
         <td>{{   $mh->ten_mon_hoc   }}</td>
         <td>{{   $mh->nganh->ten_nganh   }}</td>
         </tr>

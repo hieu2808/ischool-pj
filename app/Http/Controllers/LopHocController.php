@@ -22,7 +22,7 @@ class LopHocController extends Controller
     {
         $id = Auth::user()->profile_id;
 
-        if(!Gate::allows('duoc_xem_diem_sv')) {
+        if(!Gate::allows('onlySV')) {
             echo 'Rất tiếc bạn ko có quyền truy cập';
             die();
         }

@@ -12,7 +12,7 @@
 <h1 style="text-align: center; margin-bottom: 20px">Giao nhiệm vụ</h1>
 
 {{-- @dd(request()->all()) --}}
-<form action="{{ route('assign_task', ['lop_hoc_id' => request()->lop_hoc_id]) }}" method="post">
+<form action="{{ route('postAssignTask', ['lop_hoc_id' => request()->lop_hoc_id]) }}" method="post">
     @csrf
 
     <div class="mb-3">

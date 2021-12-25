@@ -29,8 +29,14 @@ class AppServiceProvider extends ServiceProvider
         // Một user được xem điểm khi: 
         // - user_profile là sinh viên, giáo viên 
         // - 
-        Gate::define('duoc_xem_diem_sv', function ($user) {
+        Gate::define('onlySV', function ($user) {
             return $user->profile_type == 'App\Models\SinhVien';
+        });
+        Gate::define('onlyGV', function ($user) {
+            return $user->profile_type == 'App\Models\GiaoVien';
+        });
+        Gate::define('onlyAD', function ($user) {
+            return $user->profile_type == 'App\Models\AdminProfile';
         });
 
         // Gate::define('update-post', function ($user, $post) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SinhVien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SinhVienController extends Controller
 {
@@ -15,6 +16,11 @@ class SinhVienController extends Controller
      */
     public function index()
     {
+        if(!Gate::allows('onlySV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $id = Auth::user()->profile_id;
 
         //Lấy thông tin sinh viên, tên lớp theo sinh viên

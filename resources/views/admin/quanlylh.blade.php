@@ -24,7 +24,7 @@
     <tbody>
         @foreach ($monhoc as $mh)
             <tr>
-                <td><a href="{{   url('/admin/classbysubject/' . $mh->id) }}">{{   $mh->id   }}</a></td>
+                <td><a href="{{ route('getClassList', ['mon_hoc_id' => $mh->id]) }}">{{   $mh->id   }}</a></td>
                 <td>{{   $mh->ten_mon_hoc   }} </td>
                 <td>{{   $mh->nganh->ten_nganh   }} </td>
                 <td>{{   $mh->nganh->khoa->ten_khoa   }} </td>

@@ -29,11 +29,11 @@ class LoginController extends Controller
         // }
 
         if( $user->profile_type == 'App\Models\SinhVien') {
-            return redirect()->route('profile_sv');
+            return redirect()->route('getProfileSV');
         } else if($user->profile_type == 'App\Models\GiaoVien') {
-            return redirect()->route('profile_gv');
+            return redirect()->route('getProfileGV');
         }
-        return redirect()->route('profile_ad');
+        return redirect()->route('getProfileAD');
     }
 
     /**

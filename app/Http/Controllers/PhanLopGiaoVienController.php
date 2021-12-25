@@ -51,7 +51,7 @@ class PhanLopGiaoVienController extends Controller
         // dd($data);
         PhanLopGiaoVien::create($data);
 
-        return redirect()->route('class_management');
+        return redirect()->route('getClassManagement');
     }
 
     /**
@@ -104,7 +104,7 @@ class PhanLopGiaoVienController extends Controller
 
         PhanLopGiaoVien::find($request->id)->update($data);
         
-        return redirect()->route('class_management');
+        return redirect()->route('getClassManagement');
     }
 
     /**

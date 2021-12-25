@@ -12,7 +12,7 @@
 <h1 style="text-align: center; margin-bottom: 20px">Thay đổi nhiệm vụ</h1>
 
 {{-- @dd(request()->all()) --}}
-<form action="{{ route('change_task', ['phan_lop_id' => request()->phan_lop_id]) }}" method="post">
+<form action="{{ route('postChangeTask', ['lop_hoc_id' => request()->lop_hoc_id]) }}" method="post">
     @csrf
 
     {{-- @dd(request()->all()) --}}
