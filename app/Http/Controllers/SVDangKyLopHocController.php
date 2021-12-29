@@ -31,9 +31,9 @@ class SVDangKyLopHocController extends Controller
         // Lấy ds lớp học, ddkien time ngày bắt đầu lớn hơn time hiện tại
         $classes = LopHoc::with('monHoc')->where('ngay_bat_dau', '>', $currenttime)->get();
 
-        $course_registration = SVDangKyLopHoc::where('sinh_vien_id', $id)->get();
+        $registedCourse = SVDangKyLopHoc::with('lopHoc')->where('sinh_vien_id', $id)->get();
 
-        return view('sinhvien.courseregistration', compact('classes', 'currenttime', 'course_registration'));
+        return view('sinhvien.courseregistration', compact('classes', 'currenttime', 'registedCourse'));
     }
 
     /**

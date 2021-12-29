@@ -20,7 +20,7 @@ Auth::routes();
 
 // Sinh viên
 Route::group(['prefix' => '/sinhvien', 'middleware' => 'auth'], function() {
-    Route::get('/index', 'LopHocController@XemDiem')->name('getDiemSV'); // còn lỗi
+    Route::get('/index', 'LopHocController@XemDiem')->name('getDiemSV'); 
     Route::get('/thongtin', 'SinhVienController@index')->name('getProfileSV'); 
     Route::get('/courseregistration', 'SVDangKyLopHocController@index')->name('getCourseRegistration');
     Route::post('/courseregistration', 'SVDangKyLopHocController@create')->name('postCourseRegistration'); // chưa làm xong...
@@ -44,7 +44,8 @@ Route::group(['prefix' => '/giaovien', 'middleware' => 'auth'], function() {
     
     //Lấy thông tin điểm theo ID Lớp Học
     Route::get('/diemtheolop/{lop_hoc_id}', 'GiaoVienController@getScoreListByClass')->name('getScoreGV'); 
-    Route::get('/themdiemform/{id}', 'GiaoVienController@insertScores'); // chưa làm xong...
+    Route::get('/themdiemform/{lop_hoc_id}', 'DiemMonHocController@getAddScores')->name('getAddScore'); 
+    Route::post('/themdiem/{lop_hoc_id}', 'DiemMonHocController@postAddScores')->name('postAddScore'); 
 });
 
 // Admin

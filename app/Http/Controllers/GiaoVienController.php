@@ -48,6 +48,7 @@ class GiaoVienController extends Controller
     public function getClassListBySubject($mon_hoc_id)
     {
         $lists = LopHoc::where('mon_hoc_id', $mon_hoc_id)->get();
+
         return view('giaovien.loptheomon', compact('lists'));
     }
 
@@ -55,24 +56,30 @@ class GiaoVienController extends Controller
     //Lấy danh sách điểm sinh viên theo lớp học
     public function getScoreListByClass($lop_hoc_id)
     {
-        $lhlists = LopHoc::where('id', $lop_hoc_id)->get();
-        foreach($lhlists as $items) {
-            $svs = $items->sinhVienDK;
-            $ten_diems = $items->phuongThucDG;
-            $diemsos = $items->diemMH;
+        $class = LopHoc::with('sinhVienDK', 'phuongThucDG', 'diemMH')->find($lop_hoc_id);
+
+        $studentList = $class->sinhVienDK;
+
+        $nameScoreList = $class->phuongThucDG;
+
+        $scoreList = [];
+
+        foreach($studentList as $stdl) {
+            foreach($nameScoreList as $nscl) {
+
+                $score = DiemMonHoc::where([['sinh_vien_id', $stdl->sinh_vien_id], 
+                                            ['phuong_thuc_danh_gia_id', $nscl->id],
+                                            ['lop_hoc_id', $nscl->lop_hoc_id]
+                                        ])->first();
+                                        
+                $scoreList[$stdl->sinh_vien_id][$nscl->id] = $score;
+            }
         }
-        return view('giaovien.diemtheolop', compact('lhlists', 'svs', 'ten_diems', 'diemsos'));
+        // dd($scoreList);
+
+        return view('giaovien.diemtheolop', compact('studentList', 'nameScoreList', 'scoreList', 'class'));
     }
 
-    //Nhập điểm môn học
-    public function insertScores($id)
-    {
-        $lists = LopHoc::with('sinhVienDK', 'diemMH', 'phuongThucDG')->findOrFail($id);
-
-        dd($lists);
- 
-        return view('giaovien.themdiemform', compact('lists'));
-    }
     /**
      * Show the form for creating a new resource.
      *

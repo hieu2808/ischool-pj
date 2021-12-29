@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiemMonHoc;
+use App\Models\LopHoc;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DiemMonHocController extends Controller
 {
@@ -11,6 +16,45 @@ class DiemMonHocController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getAddScores($lop_hoc_id)
+    {
+        $class = LopHoc::with('sinhVienDK', 'phuongThucDG', 'diemMH')->find($lop_hoc_id);
+
+        $studentList = $class->sinhVienDK;
+
+        $nameScoreList = $class->phuongThucDG;
+
+        $scoreList = [];
+
+        foreach($studentList as $stdl) {
+            foreach($nameScoreList as $nscl) {
+
+                $score = DiemMonHoc::where([['sinh_vien_id', $stdl->sinh_vien_id], 
+                                            ['phuong_thuc_danh_gia_id', $nscl->id],
+                                            ['lop_hoc_id', $nscl->lop_hoc_id]
+                                        ])->first();
+                                        
+                $scoreList[$stdl->sinh_vien_id][$nscl->id] = $score;
+            }
+        }
+
+        return view('giaovien.themdiemform', compact('studentList', 'nameScoreList', 'scoreList', 'class'));
+    }
+    
+    public function postAddScores($lop_hoc_id, Request $request)
+    {
+        $giao_vien_id = Auth::user()->profile_id;
+
+        $ngay_cho_diem = Carbon::now('Asia/Ho_Chi_Minh');
+
+        $data = $request->diem;
+        
+        // $keyName = array_keys($data);
+        dd($data);
+        
+        return redirect()->route('getAddScore', ['lop_hoc_id' => request()->lop_hoc_id]);
+    }
     public function index()
     {
         //

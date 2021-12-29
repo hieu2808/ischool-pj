@@ -17,16 +17,16 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <td>ID lớp học</td>
-            <td>Tên lớp học</td>
-            <td>Tên môn học</td>
-            <td>Tên ngành học</td>
-            <td>Khoa</td>
-            <td>Số lượng sinh viên</td>
-            <td>Số tín chỉ</td>
-            <td>Ngày bắt đầu</td>
-            <td>Ngày kết thúc</td>
-            <td>Đăng Ký</td>
+            <th>ID lớp học</th>
+            <th>Tên lớp học</th>
+            <th>Tên môn học</th>
+            <th>Tên ngành học</th>
+            <th>Khoa</th>
+            <th>Số lượng sinh viên</th>
+            <th>Số tín chỉ</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Đăng Ký</th>
         </tr>
     </thead>
 
@@ -53,6 +53,30 @@
     </tbody>
 </table>
 
+<h1 style="text-align: center;">Danh sách môn học đã đăng ký</h1>
 
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID lớp học</th>
+            <th>Tên lớp học</th>
+            <th>Tên môn học</th>
+            <th>Tên chương trình học</th>
+            <th>Ngày đăng ký</th>
+        </tr>
+    </thead>
 
+    <tbody>
+       @foreach ($registedCourse as $rc)
+           <tr>
+               <td>{{$rc->lopHoc->id}}</td>
+               <td>{{$rc->lopHoc->ten_lop_hoc}}</td>
+               <td>{{$rc->lopHoc->monHoc->ten_mon_hoc}}</td>
+               <td>{{$rc->lopHoc->chuongTrinhHoc->ten_chuong_trinh_hoc}}</td>
+               <td>{{$rc->lopHoc->ngay_dang_ky}}</td>
+
+           </tr>
+       @endforeach
+    </tbody>
+</table>
 @endsection

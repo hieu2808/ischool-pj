@@ -27,32 +27,28 @@ class LopHocController extends Controller
             die();
         }
 
-        $data = [];
-        //TODO: Liệt kê bảng điểm theo môn học của sinh viên có id là sinh viên $id
-        $mon_hoc_da_dang_ky = SVDangKyLopHoc::where('sinh_vien_id', $id)->get();
-        foreach($mon_hoc_da_dang_ky as $mon_hoc) {
-            $lop_hoc = $mon_hoc->lopHoc;
-            $data[$lop_hoc->id]['mon_hoc'] = $lop_hoc->monHoc;
-            $data[$lop_hoc->id]['ten_diem'] = $lop_hoc->phuongThucDG;
-            $data[$lop_hoc->id]['diem'] = $lop_hoc->diemMH;
+        //Lấy môn học sinh viên đã đăng ký
+        $subjectRegisted = SVDangKyLopHoc::where('sinh_vien_id', $id)->get();
+
+        $scoreList = [];
+
+        foreach($subjectRegisted as $sr) {
+            $class = $sr->lopHoc;
+            $classData[$sr->lop_hoc_id]['monHoc'] = $class->monHoc;
+            $classData[$sr->lop_hoc_id]['tenDiem'] = $class->phuongThucDG;
+
+            foreach($classData[$sr->lop_hoc_id]['tenDiem'] as $d) {
+
+                $score = DiemMonHoc::where([['sinh_vien_id', $id], 
+                                            ['phuong_thuc_danh_gia_id', $d->id],
+                                            ['lop_hoc_id', $d->lop_hoc_id]
+                                        ])->first();
+                                        
+                $scoreList[$d->lop_hoc_id][$d->id] = $score;
+            }
         }
-        // $diem_so = DiemMonHoc::find($id)->lopHoc()->get();
 
-        // $mon_hoc_da_dang_ky = SVDangKyLopHoc::where('sinh_vien_id', $id)->get();
-        // foreach($mon_hoc_da_dang_ky as $mon_hoc) {
-        //     $lop_hoc_id = $mon_hoc->lop_hoc_id;
-        //     //$lop_hoc = LopHoc::where('id', $lop_hoc_id)->get();
-        //     $ten_diem = PhuongThucDanhGia::where('lop_hoc_id', $lop_hoc_id)->get();
-        //     foreach($ten_diem as $diem) {
-        //         $diem_so[] = DiemMonHoc::where([['lop_hoc_id', $lop_hoc_id], ['phuong_thuc_danh_gia_id', $diem->id], ['sinh_vien_id', $id]])->get();
-        //     }
-        // }
-
-        //  var_dump($mon_hoc_da_dang_ky);
-          
-        //  var_dump($diem_so);
-
-        return view('sinhvien.index', compact('data', $data));
+        return view('sinhvien.index', compact('classData', 'scoreList'));
     }
 
     /**
