@@ -29,11 +29,16 @@ class SVDangKyLopHocController extends Controller
         $currenttime = Carbon::now('Asia/Ho_Chi_Minh');
 
         // Lấy ds lớp học, ddkien time ngày bắt đầu lớn hơn time hiện tại
-        $classes = LopHoc::with('monHoc')->where('ngay_bat_dau', '>', $currenttime)->get();
+        $classes = LopHoc::with('monHoc', 'sinhVienDK')->withCount('sinhVienDK')->where('ngay_bat_dau', '>', $currenttime)->get();
 
+        //Lấy danh sách lớp học đã đăng ký
         $registedCourse = SVDangKyLopHoc::with('lopHoc')->where('sinh_vien_id', $id)->get();
 
-        return view('sinhvien.courseregistration', compact('classes', 'currenttime', 'registedCourse'));
+        // $registed = SVDangKyLopHoc::groupBy('lop_hoc_id')->get();
+        // dd($classes);
+        
+        // dd($registed);
+        return view('sinhvien.courseregistration', compact('classes', 'currenttime', 'registedCourse', 'id'));
     }
 
     /**
@@ -48,7 +53,9 @@ class SVDangKyLopHocController extends Controller
         $registration_time = Carbon::now('Asia/Ho_Chi_Minh');
 
         $data = array_merge(['sinh_vien_id' => $id], ['ngay_dang_ky' => $registration_time], $request->all());
-        dd($data);
+        // dd($data);
+
+        SVDangKyLopHoc::create($data);
 
         return redirect()->route('getCourseRegistration');
 

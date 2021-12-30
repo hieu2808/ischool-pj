@@ -50,8 +50,20 @@ class DiemMonHocController extends Controller
 
         $data = $request->diem;
         
+        foreach($data as $studentID => $scoreType) {
+            foreach($scoreType as $scoreTypeID => $score) {
+                DiemMonHoc::updateOrCreate(['id' => $score['diem_id'] ?? null], [
+                    'sinh_vien_id' => $studentID,
+                    'lop_hoc_id' => $lop_hoc_id,
+                    'phuong_thuc_danh_gia_id' => $scoreTypeID,
+                    'giao_vien_id' => $giao_vien_id,
+                    'diem' => $score['diem'] ?? null,
+                    'ngay_cho_diem' => $ngay_cho_diem
+                ]);
+            }
+        }
         // $keyName = array_keys($data);
-        dd($data);
+        // dd($data);
         
         return redirect()->route('getAddScore', ['lop_hoc_id' => request()->lop_hoc_id]);
     }

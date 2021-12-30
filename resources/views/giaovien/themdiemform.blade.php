@@ -35,10 +35,10 @@
                         {{-- <input type="hidden" name="sinh_vien_id[]" value="{{ $sv->sinhVien->id }}"> --}}
                         {{-- <input type="hidden" name="phuong_thuc_danh_gia_id[]" value="{{ $score->id }}"> --}}
                         @if (!empty($scoreList[$sv->sinhVien->id][$score->id]))
-                            {{-- <input type="hidden" name="id[]" class="form-control" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->id }}">  --}}
-                            <input type="text" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}]" class="form-control" placeholder="Nhap diem" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->diem }}">
+                            <input type="hidden" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem_id]" class="form-control" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->id }}"> 
+                            <input type="text" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->diem }}">
                         @else
-                        <input type="number" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}]" class="form-control" placeholder="Nhap diem" >
+                        <input type="number" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" >
                         @endif
                     </td>
                     @endforeach

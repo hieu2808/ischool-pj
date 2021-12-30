@@ -13,7 +13,6 @@
 
 {{ $currenttime }} <br>
 
-{{-- @dd($course_registration) --}}
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -42,12 +41,18 @@
                 <td>{{   $cl->so_tin_chi  }} </td>
                 <td>{{   $cl->ngay_bat_dau  }} </td>
                 <td>{{   $cl->ngay_ket_thuc  }} </td>
+                {{-- @dd($cl->sinh_vien_d_k_count, $cl->so_luong_sv) --}}
+                @if (in_array($id, $cl->sinhVienDK->pluck('sinh_vien_id')->toArray()))
+                    <td>{{ 'Đã đăng ký' }}</td>
+                @elseif($cl->sinh_vien_d_k_count < $cl->so_luong_sv)
                 <form action="{{ route('postCourseRegistration') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="lop_hoc_id" value="{{ $cl->id }}">
-                    <td><button class="btn btn-success">Đăng ký</button></td>
-                </form>
-                
+                        @csrf
+                        <input type="hidden" name="lop_hoc_id" value="{{ $cl->id }}">
+                        <td><button class="btn btn-success">Đăng ký</button></td>
+                    </form>
+                @else
+                <td>{{ 'Lớp đã đầy' }}</td>
+                @endif
             </tr>
         @endforeach
     </tbody>
@@ -73,8 +78,7 @@
                <td>{{$rc->lopHoc->ten_lop_hoc}}</td>
                <td>{{$rc->lopHoc->monHoc->ten_mon_hoc}}</td>
                <td>{{$rc->lopHoc->chuongTrinhHoc->ten_chuong_trinh_hoc}}</td>
-               <td>{{$rc->lopHoc->ngay_dang_ky}}</td>
-
+               <td>{{$rc->ngay_dang_ky}}</td>
            </tr>
        @endforeach
     </tbody>
