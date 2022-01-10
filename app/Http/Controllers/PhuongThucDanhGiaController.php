@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LopHoc;
 use App\Models\PhuongThucDanhGia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PhuongThucDanhGiaController extends Controller
 {
@@ -16,6 +17,11 @@ class PhuongThucDanhGiaController extends Controller
 
     public function getEvaluation($lop_hoc_id)
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         // lấy ra tên lớp học, tên môn học
         $class = LopHoc::find($lop_hoc_id);
 
@@ -30,6 +36,11 @@ class PhuongThucDanhGiaController extends Controller
 
     public function postAddEvaluation(Request $request)
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         PhuongThucDanhGia::create($request->all());
 
         return redirect()->route('getEvaluation', ['lop_hoc_id' => request()->lop_hoc_id]);
@@ -37,6 +48,11 @@ class PhuongThucDanhGiaController extends Controller
 
     public function postDeleteEvaluation(Request $request)
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+        
         PhuongThucDanhGia::find($request->id)->delete();
 
         return redirect()->route('getEvaluation', ['lop_hoc_id' => request()->lop_hoc_id]);

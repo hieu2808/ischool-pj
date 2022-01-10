@@ -9,6 +9,7 @@ use App\Models\MonHoc;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AdminProfileController extends Controller
 {
@@ -19,6 +20,11 @@ class AdminProfileController extends Controller
      */
     public function index()
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $id = Auth::user()->profile_id;
 
         $admin = AdminProfile::find($id);
@@ -28,6 +34,11 @@ class AdminProfileController extends Controller
 
     public function getMonHoc()
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $monhoc = MonHoc::paginate(10);
 
         return view('admin.quanlylh', compact('monhoc'));
@@ -35,6 +46,11 @@ class AdminProfileController extends Controller
 
     public function getClassBySubject($mon_hoc_id)
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $classes = LopHoc::with('monHoc', 'chuongTrinhHoc', 'phanLopGV')->where('mon_hoc_id', $mon_hoc_id)->get();
 
         return view('admin.classbysubject', compact('classes'));
@@ -42,6 +58,11 @@ class AdminProfileController extends Controller
 
     public function addClassForm()
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $chuongTrinhHocs = ChuongTrinhHoc::all();
 
         return view('admin.addclassform', compact('chuongTrinhHocs'));
@@ -54,6 +75,11 @@ class AdminProfileController extends Controller
      */
     public function create($mon_hoc_id)
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+        
         $data = array_merge(['mon_hoc_id' => $mon_hoc_id], request()->all());
         // dd($data);
         LopHoc::create($data);

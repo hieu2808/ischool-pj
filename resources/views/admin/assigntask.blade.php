@@ -24,13 +24,13 @@
         <select name="giao_vien_id" class="form-select" id="tenGV" required>
             <option selected value="">Chọn tên giáo viên</option>
             @foreach ($teacher as $t)
-                <option value="{{ $t->id }}">{{ $t->ten_ho . " " . $t->ten_dem . " " . $t->ten}}</option>
+                <option value="{{ $t->id }}">{{ $t->ten_ho . " " . $t->ten_dem . " " . $t->ten . " - " . $t->id }}</option>
             @endforeach
         </select>
     </div>
     <div class="mb-3">
         <label for="ngay_phan_lop" class="form-label">Ngày phân lớp</label>
-        <input type="date" class="form-control" name='ngay_phan_lop' id="ngay_phan_lop">
+        <input type="date" class="form-control" name='ngay_phan_lop' id="ngay_phan_lop" required>
     </div>
     <button type="submit" class="btn btn-success" >Giao nhiệm vụ</button>
 

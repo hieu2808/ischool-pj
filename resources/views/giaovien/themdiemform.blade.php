@@ -36,7 +36,7 @@
                         {{-- <input type="hidden" name="phuong_thuc_danh_gia_id[]" value="{{ $score->id }}"> --}}
                         @if (!empty($scoreList[$sv->sinhVien->id][$score->id]))
                             <input type="hidden" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem_id]" class="form-control" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->id }}"> 
-                            <input type="text" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->diem }}">
+                            <input min="0" max="10" type="number" step="0.1" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->diem }}">
                         @else
                         <input type="number" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" >
                         @endif

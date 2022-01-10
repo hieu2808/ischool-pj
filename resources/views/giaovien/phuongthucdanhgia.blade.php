@@ -25,12 +25,12 @@
 
     <div class="form-row">
         <label for="tendiem" class="col-2">Tên điểm</label>
-        <input type="text" class=" col-10 form-control" name='ten_diem' id="tendiem">
+        <input type="text" class=" col-10 form-control" name='ten_diem' id="tendiem" required>
     </div>
 
     <div class="form-row">
         <label for="trongSo" class="col-2">Trọng số</label>
-        <input type="number" step="0.01" class="col-10 form-control" name='trong_so' id="trongSo">
+        <input min="0.001" max="1" type="number" step="0.001" class="col-10 form-control" name='trong_so' id="trongSo" required>
     </div>
     
     <button type="submit" class="btn btn-success" >Thêm mới</button>

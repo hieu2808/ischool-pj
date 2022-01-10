@@ -48,6 +48,11 @@ class SVDangKyLopHocController extends Controller
      */
     public function create(Request $request)
     {
+        if(!Gate::allows('onlySV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+        
         $id = Auth::user()->profile_id;
         
         $registration_time = Carbon::now('Asia/Ho_Chi_Minh');

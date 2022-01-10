@@ -9,7 +9,7 @@ use App\Models\LopHoc;
 use App\Models\PhanLopGiaoVien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Gate;
 class GiaoVienController extends Controller
 {
     /**
@@ -19,6 +19,11 @@ class GiaoVienController extends Controller
      */
     public function index()
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $id = Auth::user()->profile_id;
 
         $teachers = GiaoVien::where('id', $id)->get();
@@ -34,6 +39,11 @@ class GiaoVienController extends Controller
     //Lấy danh sách môn học theo giáo viên
     public function getSubjectByTeacher()
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $id = Auth::user()->profile_id;
 
         $teachers = PhanLopGiaoVien::where('giao_vien_id', $id)->get();
@@ -47,6 +57,11 @@ class GiaoVienController extends Controller
     //Lấy danh sách lớp học theo môn học
     public function getClassListBySubject($mon_hoc_id)
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $lists = LopHoc::where('mon_hoc_id', $mon_hoc_id)->get();
 
         return view('giaovien.loptheomon', compact('lists'));
@@ -56,6 +71,11 @@ class GiaoVienController extends Controller
     //Lấy danh sách điểm sinh viên theo lớp học
     public function getScoreListByClass($lop_hoc_id)
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+        
         $class = LopHoc::with('sinhVienDK', 'phuongThucDG', 'diemMH')->find($lop_hoc_id);
 
         $studentList = $class->sinhVienDK;

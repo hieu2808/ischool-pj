@@ -6,6 +6,7 @@ use App\Models\GiaoVien;
 use App\Models\LopHoc;
 use App\Models\PhanLopGiaoVien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PhanLopGiaoVienController extends Controller
 {
@@ -22,6 +23,11 @@ class PhanLopGiaoVienController extends Controller
     // Lấy thông tin lớp học và giáo viên
     public function assignTask($lop_hoc_id)
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $assign = LopHoc::find($lop_hoc_id);
 
         $teacher = GiaoVien::all();
@@ -32,6 +38,11 @@ class PhanLopGiaoVienController extends Controller
     // Lấy thông tin phân lớp giáo viên theo lop_hoc_id
     public function changeTask($lop_hoc_id)
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $assigntask = PhanLopGiaoVien::with('giaoVien')->where('lop_hoc_id', $lop_hoc_id)->first();
 
         $teachers = GiaoVien::all();
@@ -47,6 +58,11 @@ class PhanLopGiaoVienController extends Controller
     // Giao nhiệm vụ cho giáo viên -> quay trở về quản lý lớp học
     public function create(Request $request)
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $data = $request->all();
         // dd($data);
         PhanLopGiaoVien::create($data);
@@ -98,6 +114,11 @@ class PhanLopGiaoVienController extends Controller
     //  Thay đổi giáo viên giảng dạy
     public function update(Request $request)
     {
+        if(!Gate::allows('onlyAD')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+        
         $data = request()->except(['_token']);
 
         // dd($data);

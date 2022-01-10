@@ -37,7 +37,7 @@
                 <td>{{   $cl->monHoc->ten_mon_hoc   }} </td>
                 <td>{{   $cl->monHoc->nganh->ten_nganh   }} </td>
                 <td>{{   $cl->monHoc->nganh->khoa->ten_khoa   }} </td>
-                <td>{{   $cl->so_luong_sv  }} </td>
+                <td>{{   $cl->sinh_vien_d_k_count . "/" . $cl->so_luong_sv  }} </td>
                 <td>{{   $cl->so_tin_chi  }} </td>
                 <td>{{   $cl->ngay_bat_dau  }} </td>
                 <td>{{   $cl->ngay_ket_thuc  }} </td>

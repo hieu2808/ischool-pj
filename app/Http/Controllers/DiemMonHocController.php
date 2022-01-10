@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DiemMonHocController extends Controller
 {
@@ -19,6 +20,11 @@ class DiemMonHocController extends Controller
 
     public function getAddScores($lop_hoc_id)
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+
         $class = LopHoc::with('sinhVienDK', 'phuongThucDG', 'diemMH')->find($lop_hoc_id);
 
         $studentList = $class->sinhVienDK;
@@ -44,6 +50,11 @@ class DiemMonHocController extends Controller
     
     public function postAddScores($lop_hoc_id, Request $request)
     {
+        if(!Gate::allows('onlyGV')) {
+            echo 'Rất tiếc bạn ko có quyền truy cập';
+            die();
+        }
+        
         $giao_vien_id = Auth::user()->profile_id;
 
         $ngay_cho_diem = Carbon::now('Asia/Ho_Chi_Minh');

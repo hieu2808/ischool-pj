@@ -33,13 +33,13 @@
 
             {{-- Hiển thị tên giáo viên cũ --}} 
             <option selected value="{{ $assigntask->giao_vien_id }}">
-                {{ $assigntask->giaoVien->ten_ho . " " . $assigntask->giaoVien->ten_dem . " " . $assigntask->giaoVien->ten . " (Hiện tại)"}}
+                {{ $assigntask->giaoVien->ten_ho . " " . $assigntask->giaoVien->ten_dem . " " . $assigntask->giaoVien->ten. " - " . $assigntask->giao_vien_id . " (Hiện tại)"}}
             </option>
 
             {{-- Hiển thị tên giáo viên mới --}} 
             @foreach ($teachers as $t)
                 <option value="{{ $t->id }}">
-                    {{ $t->ten_ho . " " . $t->ten_dem . " " . $t->ten}}
+                    {{ $t->ten_ho . " " . $t->ten_dem . " " . $t->ten. " - " . $t->id}}
                 </option>
             @endforeach
         </select>
