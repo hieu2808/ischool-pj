@@ -38,7 +38,7 @@
                             <input type="hidden" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem_id]" class="form-control" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->id }}"> 
                             <input min="0" max="10" type="number" step="0.1" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" value="{{ $scoreList[$sv->sinhVien->id][$score->id]->diem }}">
                         @else
-                        <input type="number" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" >
+                        <input min="0" max="10" type="number" name="diem[{{$sv->sinhVien->id }}][{{ $score->id }}][diem]" class="form-control" placeholder="Nhap diem" >
                         @endif
                     </td>
                     @endforeach
